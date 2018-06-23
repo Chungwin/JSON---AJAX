@@ -14,6 +14,7 @@ btn.addEventListener("click", function () {
     ourRequest.onload = function() {
         // .. save it all in var ourData as JSON format
         var ourData = JSON.parse(ourRequest.responseText);
+        // .. and spit it out as HTML on the page
         renderHTML(ourData);
     };
     ourRequest.send();
@@ -32,7 +33,18 @@ btn.addEventListener("click", function () {
 function renderHTML(data) {
     var htmlString = ""
     for (i = 0; i < data.length; i++) {
-        htmlString += "<p>" + data[i].name + " is a " + data[i].species + ".</p>";
+        htmlString += "<p>" + data[i].name + " is a " + data[i].species + " that likes to eat ";
+        //Adding now the favorite foods in the output sentence by looging through the food-likes
+        for (ii = 0; ii < data[i].foods.likes.length; ii++) {
+            //if there are more than 2 food likes / elements in the array we need to add " and "
+            if (ii == 0) {
+                htmlString += data[i].foods.likes[ii];
+            }
+            else {
+                htmlString += " and " + data[i].foods.likes[ii];
+            }
+        }
+        htmlString += ".</p>";
     }
 
     //animalContainer declared on top already
